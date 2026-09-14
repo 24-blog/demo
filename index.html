@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Holy Magic Effect - Optimized</title>
+<title>Magic Effect</title>
 
 <style>
 html, body {
@@ -24,6 +24,7 @@ canvas {
 
 <body>
 <canvas id="magic"></canvas>
+<audio id="bgm" src="bgm.mp3" loop preload="auto"></audio>
 
 <script>
 const canvas = document.getElementById("magic");
@@ -194,6 +195,27 @@ function spokes(c, rInner, rOuter, count, alpha, color, altShort) {
    ============================================================ */
 let magicSprites = null;
 let coreGlowSprite = null;
+let shockwaveSprite = null; // resize()より前に宣言する必要がある(TDZ回避)
+
+/* 衝撃波スプライトの生成関数と参照サイズも、resize()から呼ばれる
+   ため必ずここ(呼び出しより前)で定義しておく(TDZ回避)。 */
+const SHOCKWAVE_REF = 200;
+
+function buildShockwaveSprite() {
+    const off = makeOffscreen(SHOCKWAVE_REF);
+    const half = SHOCKWAVE_REF / 2;
+    const r = half - 6;
+
+    off.ctx.beginPath();
+    off.ctx.arc(half, half, r, 0, Math.PI * 2);
+    off.ctx.shadowBlur = 25;
+    off.ctx.shadowColor = "rgba(220,240,255,1)";
+    off.ctx.strokeStyle = "rgba(230,245,255,1)";
+    off.ctx.lineWidth = 2.5;
+    off.ctx.stroke();
+
+    return off.canvas;
+}
 
 function buildMagicSprites(radius) {
     const size = radius * 2 * 1.35;
@@ -401,25 +423,6 @@ function updateAndDrawParticles(dt, radius, charge) {
 /* ============================================================
    衝撃波リング（詠唱完了時のバースト） - スプライト方式
    ============================================================ */
-const SHOCKWAVE_REF = 200;
-let shockwaveSprite = null;
-
-function buildShockwaveSprite() {
-    const off = makeOffscreen(SHOCKWAVE_REF);
-    const half = SHOCKWAVE_REF / 2;
-    const r = half - 6;
-
-    off.ctx.beginPath();
-    off.ctx.arc(half, half, r, 0, Math.PI * 2);
-    off.ctx.shadowBlur = 25;
-    off.ctx.shadowColor = "rgba(220,240,255,1)";
-    off.ctx.strokeStyle = "rgba(230,245,255,1)";
-    off.ctx.lineWidth = 2.5;
-    off.ctx.stroke();
-
-    return off.canvas;
-}
-
 const shockwaves = [];
 
 function spawnShockwave(maxRadius) {
@@ -534,6 +537,23 @@ function draw(now) {
 }
 
 requestAnimationFrame(draw);
+
+/* ============================================================
+   BGM再生：画面のどこか一箇所を一度タップ/クリックした時点で
+   ループ再生を開始する（ブラウザの自動再生制限に対応するため、
+   ユーザー操作をきっかけに再生する必要がある）。
+   ============================================================ */
+const bgm = document.getElementById("bgm");
+
+function startBGM() {
+    bgm.play().catch(() => {
+        /* 再生に失敗した場合は次のタップで再試行できるよう
+           リスナーを再登録する */
+        window.addEventListener("pointerdown", startBGM, { once: true });
+    });
+}
+
+window.addEventListener("pointerdown", startBGM, { once: true });
 </script>
 </body>
 </html>
