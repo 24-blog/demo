@@ -1,4 +1,4 @@
-### Index Currently Being Deployed
+### File Being Deployed: index.html
 | リポジトリ名 | 日付 | 状態 |
 | :--- |:--- |:--- |
 | ssw | 2026-09-15-1400 | 試行中 |
