@@ -1,4 +1,4 @@
-### Files Currently Being Deployed
+### Index Currently Being Deployed
 | リポジトリ名 | 日付 | 状態 |
 | :--- |:--- |:--- |
 | ssw | 2026-09-15-1400 | 試行中 |
