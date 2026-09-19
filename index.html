@@ -21,7 +21,7 @@
       overflow-x: hidden;
     }
 
-    /* 背景に淡く流れる文字 */
+    /* 背景の淡い文字 */
     .bg-text {
       position: fixed;
       top: 0;
@@ -30,11 +30,11 @@
       height: 100%;
       z-index: 0;
       pointer-events: none;
-      opacity: 0.04;
-      font-size: 4.5rem;
+      opacity: 0.035;
+      font-size: clamp(2.8rem, 8vw, 4.5rem);
       font-weight: 300;
-      line-height: 1.4;
-      letter-spacing: 0.3em;
+      line-height: 1.5;
+      letter-spacing: 0.25em;
       color: #fff;
       white-space: nowrap;
       overflow: hidden;
@@ -43,27 +43,26 @@
 
     .bg-text span {
       display: inline-block;
-      margin-right: 2.5em;
+      margin-right: 2em;
     }
 
-    /* メインコンテンツ */
     .container {
       position: relative;
       z-index: 1;
       max-width: 900px;
       margin: 0 auto;
-      padding: 80px 24px 120px;
+      padding: 60px 20px 100px;
     }
 
     header {
       text-align: center;
-      margin-bottom: 80px;
+      margin-bottom: 60px;
     }
 
     .logo {
-      font-size: 5.5rem;
+      font-size: clamp(3.2rem, 12vw, 5.5rem);
       font-weight: 300;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.2em;
       background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -72,81 +71,44 @@
     }
 
     .tagline {
-      font-size: 0.95rem;
-      letter-spacing: 0.4em;
+      font-size: 0.9rem;
+      letter-spacing: 0.3em;
       color: #888;
       font-weight: 300;
     }
 
-    /* セクション */
     section {
-      margin-bottom: 72px;
+      margin-bottom: 64px;
     }
 
     .section-title {
-      font-size: 0.85rem;
-      letter-spacing: 0.3em;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
       color: #666;
-      margin-bottom: 24px;
-      text-transform: uppercase;
+      margin-bottom: 20px;
     }
 
-    /* 大きな「魚拓」グリッド */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 12px;
-      padding: 32px 16px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      border-color: #555;
-      transform: translateY(-4px);
-      background: #222;
-    }
-
-    .card span {
-      font-size: 1.8rem;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-    }
-
-    /* 流れるテキスト */
-    .flow {
-      font-size: 1.6rem;
-      font-weight: 300;
-      letter-spacing: 0.4em;
-      line-height: 2.2;
-      color: #ccc;
-      text-align: center;
-      word-break: keep-all;
-    }
-
-    /* 中央の大きな強調 */
+    /* ヒーロー（はみ出し対策） */
     .hero {
       text-align: center;
-      padding: 60px 0;
+      padding: 40px 0 50px;
     }
 
     .hero-text {
-      font-size: 3.2rem;
+      font-size: clamp(1.6rem, 6.5vw, 3rem);
       font-weight: 300;
-      letter-spacing: 0.5em;
-      margin-bottom: 16px;
+      letter-spacing: 0.25em;
+      margin-bottom: 14px;
       background: linear-gradient(90deg, #fff, #888, #fff);
       background-size: 200% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: shine 6s linear infinite;
+      word-break: keep-all;
+      white-space: nowrap; /* 折り返しを防止 */
+      overflow: hidden;
+      text-overflow: ellipsis; /* 万が一はみ出しても… */
     }
 
     @keyframes shine {
@@ -154,30 +116,86 @@
     }
 
     .hero-sub {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #777;
-      letter-spacing: 0.25em;
+      letter-spacing: 0.2em;
     }
 
-    /* フッター */
+    /* グリッド */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 28px 12px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: #555;
+      transform: translateY(-3px);
+      background: #222;
+    }
+
+    .card span {
+      font-size: 1.6rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+    }
+
+    /* 流れるテキスト（はみ出し対策） */
+    .flow {
+      font-size: clamp(1rem, 3.5vw, 1.5rem);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      line-height: 2.1;
+      color: #ccc;
+      text-align: center;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    .flow.dense {
+      font-size: clamp(0.95rem, 3vw, 1.25rem);
+      letter-spacing: 0.35em;
+      color: #999;
+    }
+
     footer {
       text-align: center;
-      padding-top: 60px;
+      padding-top: 50px;
       border-top: 1px solid #222;
       color: #555;
-      font-size: 0.85rem;
-      letter-spacing: 0.15em;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
     }
 
     footer strong {
       color: #aaa;
       font-weight: 400;
     }
+
+    /* モバイル微調整 */
+    @media (max-width: 480px) {
+      .hero-text {
+        letter-spacing: 0.15em;
+        white-space: normal; /* 超狭い場合は折り返しを許可 */
+      }
+      
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- 背景の淡い文字 -->
   <div class="bg-text" aria-hidden="true">
     <span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span>
     <span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span>
@@ -192,13 +210,11 @@
       <div class="tagline">デモページ · 著作権フリー</div>
     </header>
 
-    <!-- ヒーロー -->
     <div class="hero">
       <div class="hero-text">魚拓　魚拓　魚拓</div>
       <div class="hero-sub">アーカイブシステムの動作確認用</div>
     </div>
 
-    <!-- グリッド -->
     <section>
       <div class="section-title">魚拓コレクション</div>
       <div class="grid">
@@ -217,7 +233,6 @@
       </div>
     </section>
 
-    <!-- 流れるテキスト -->
     <section>
       <div class="section-title">リピート</div>
       <div class="flow">
@@ -227,257 +242,9 @@
       </div>
     </section>
 
-    <!-- もう一段 -->
     <section>
       <div class="section-title">もっと魚拓</div>
-      <div class="flow" style="font-size: 1.3rem; letter-spacing: 0.6em; color: #999;">
-        魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓<br>
-        魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓<br>
-        魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓
-      </div>
-    </section>
-
-    <footer>
-      <p><strong>魚拓デモ</strong> — 自由に改変・再配布可能</p>
-      <p style="margin-top: 8px;">このページは魚拓システムのテスト用に作成されました</p>
-    </footer>
-
-  </div>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>魚拓 × 魚拓</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Noto Sans JP', sans-serif;
-      background: #0f0f0f;
-      color: #e8e8e8;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* 背景に淡く流れる文字 */
-    .bg-text {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      pointer-events: none;
-      opacity: 0.04;
-      font-size: 4.5rem;
-      font-weight: 300;
-      line-height: 1.4;
-      letter-spacing: 0.3em;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      user-select: none;
-    }
-
-    .bg-text span {
-      display: inline-block;
-      margin-right: 2.5em;
-    }
-
-    /* メインコンテンツ */
-    .container {
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 80px 24px 120px;
-    }
-
-    header {
-      text-align: center;
-      margin-bottom: 80px;
-    }
-
-    .logo {
-      font-size: 5.5rem;
-      font-weight: 300;
-      letter-spacing: 0.25em;
-      background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 12px;
-    }
-
-    .tagline {
-      font-size: 0.95rem;
-      letter-spacing: 0.4em;
-      color: #888;
-      font-weight: 300;
-    }
-
-    /* セクション */
-    section {
-      margin-bottom: 72px;
-    }
-
-    .section-title {
-      font-size: 0.85rem;
-      letter-spacing: 0.3em;
-      color: #666;
-      margin-bottom: 24px;
-      text-transform: uppercase;
-    }
-
-    /* 大きな「魚拓」グリッド */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 12px;
-      padding: 32px 16px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      border-color: #555;
-      transform: translateY(-4px);
-      background: #222;
-    }
-
-    .card span {
-      font-size: 1.8rem;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-    }
-
-    /* 流れるテキスト */
-    .flow {
-      font-size: 1.6rem;
-      font-weight: 300;
-      letter-spacing: 0.4em;
-      line-height: 2.2;
-      color: #ccc;
-      text-align: center;
-      word-break: keep-all;
-    }
-
-    /* 中央の大きな強調 */
-    .hero {
-      text-align: center;
-      padding: 60px 0;
-    }
-
-    .hero-text {
-      font-size: 3.2rem;
-      font-weight: 300;
-      letter-spacing: 0.5em;
-      margin-bottom: 16px;
-      background: linear-gradient(90deg, #fff, #888, #fff);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: shine 6s linear infinite;
-    }
-
-    @keyframes shine {
-      to { background-position: 200% center; }
-    }
-
-    .hero-sub {
-      font-size: 0.9rem;
-      color: #777;
-      letter-spacing: 0.25em;
-    }
-
-    /* フッター */
-    footer {
-      text-align: center;
-      padding-top: 60px;
-      border-top: 1px solid #222;
-      color: #555;
-      font-size: 0.85rem;
-      letter-spacing: 0.15em;
-    }
-
-    footer strong {
-      color: #aaa;
-      font-weight: 400;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- 背景の淡い文字 -->
-  <div class="bg-text" aria-hidden="true">
-    <span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span>
-    <span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span>
-    <span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span>
-    <span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span><span>魚拓</span>
-  </div>
-
-  <div class="container">
-
-    <header>
-      <div class="logo">魚拓</div>
-      <div class="tagline">デモページ · 著作権フリー</div>
-    </header>
-
-    <!-- ヒーロー -->
-    <div class="hero">
-      <div class="hero-text">魚拓　魚拓　魚拓</div>
-      <div class="hero-sub">アーカイブシステムの動作確認用</div>
-    </div>
-
-    <!-- グリッド -->
-    <section>
-      <div class="section-title">魚拓コレクション</div>
-      <div class="grid">
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-        <div class="card"><span>魚拓</span></div>
-      </div>
-    </section>
-
-    <!-- 流れるテキスト -->
-    <section>
-      <div class="section-title">リピート</div>
-      <div class="flow">
-        魚拓　魚拓　魚拓　魚拓　魚拓　魚拓　魚拓　魚拓<br>
-        魚拓　魚拓　魚拓　魚拓　魚拓　魚拓　魚拓　魚拓<br>
-        魚拓　魚拓　魚拓　魚拓　魚拓　魚拓　魚拓　魚拓
-      </div>
-    </section>
-
-    <!-- もう一段 -->
-    <section>
-      <div class="section-title">もっと魚拓</div>
-      <div class="flow" style="font-size: 1.3rem; letter-spacing: 0.6em; color: #999;">
+      <div class="flow dense">
         魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓<br>
         魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓<br>
         魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓魚拓
