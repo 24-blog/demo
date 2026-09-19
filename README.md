@@ -9,5 +9,6 @@
 | ssw | 1タップで再生しない | [完成](https://github.com/24-blog/ssw)| Firefox挙動 |
 
 
+### For Myself
 > [!CAUTION]
 > This URL must not be added to the list.
