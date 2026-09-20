@@ -1,8 +1,9 @@
-### HTML Being Deployed
-| リポジトリ名 | 日付 | 状態 |
+### Deploying HTML
+| リポジトリ名 | 日付 | file |
 | :--- |:--- |:--- |
-| demo | 2026-09-20-0630 | 現行 |
-| ssw | 2026-09-15-1400 | 削除 |
+| demo | 2026-09-20-0630 | test |
+| demo | 2026-09-20-0630 | index |
+| ssw | 2026-09-15-1400 | index |
 
 
 ### Known Issues
