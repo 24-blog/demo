@@ -1,4 +1,4 @@
-### File Being Deployed: index.html
+### File Being Deployed: html file
 | リポジトリ名 | 日付 | 状態 |
 | :--- |:--- |:--- |
 | demo | 2026-09-20-0630 | 現行 |
