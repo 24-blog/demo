@@ -1,7 +1,7 @@
 ![Demo](https://img.shields.io/badge/demo-live-brightgreen)
 
 
-[![Crypto Payment](https://paybadge.profullstack.com/badge-crypto.svg)](https://paybadge.profullstack.com/)
+[![Bitcoin Payment](https://paybadge.profullstack.com/badge.svg)](https://paybadge.profullstack.com/?ticker=btc)
 
 ### Deploying HTML
 | No | 日付 | File | 状態 |
