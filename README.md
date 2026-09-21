@@ -1,8 +1,6 @@
 ![Demo](https://img.shields.io/badge/demo-live-brightgreen)
 
 
-[![Bitcoin Donation](https://paybadge.profullstack.com/badge.svg)](https://paybadge.profullstack.com/?ticker=btc&recipient_address=bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh)
-
 ### Deploying HTML
 | No | 日付 | File | 状態 |
 | :--- |:--- |:--- |:--- |
