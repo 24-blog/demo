@@ -1,5 +1,6 @@
 ![Demo](https://img.shields.io/badge/demo-live-brightgreen)
 
+[![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:https://docs.google.com/forms/d/e/1FAIpQLSdXV4cZdQdfSzytiWLUNCQvRCg_KgM-53nWvkWb8MZu5y3ATA/viewform) 
 
 ### Deploying HTML
 | No | 日付 | File | 状態 |
