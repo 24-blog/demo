@@ -1,6 +1,9 @@
 ![Demo](https://img.shields.io/badge/demo-live-brightgreen)
 
 
+[![Languages](https://usausa.github.io/24-blog/languages.svg)](https://github.com/24-blog?tab=repositories)
+
+
 ### Deploying HTML
 | No | 日付 | File | 状態 |
 | :--- |:--- |:--- |:--- |
