@@ -4,8 +4,8 @@
 ### Deploying HTML
 | No | 日付 | File | 状態 |
 | :--- |:--- |:--- |:--- |
-| 5 | 2026-09-27 | ball/ball-2 | 展開]
-| 4 | 2026-09-27 | ball/index | 展開]
+| 5 | 2026-09-27 | ball/ball-2 | 展開 |
+| 4 | 2026-09-27 | ball/index | 展開 |
 | 3 | 2026-09-20 | test | [展開](https://24-blog.github.io/demo/test) |
 | 2 | 2026-09-20 | index | 展開 |
 | 1 | 2026-09-15 | index | 削除 |
