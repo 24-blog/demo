@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ボールが飛んでいく</title>
+  <title>ボールが飛ばない(矛盾命令版)</title>
   <style>
     * {
       margin: 0;
@@ -41,12 +41,24 @@
     @keyframes fly {
       0% {
         left: -70px;
-        transform: rotate(0deg);
+        transform: translateY(0) rotate(0deg);
+      }
+      45% {
+        /* ジャンプ命令(そのまま残置) */
+        transform: translateY(-55px) rotate(180deg);
       }
       100% {
         left: 100%;
         transform: translateY(0) rotate(360deg);
       }
+    }
+
+    /* ===== 矛盾命令(抑制) =====
+       上の @keyframes fly の45%が出す「ジャンプせよ」という命令を
+       削除・変更せずに、!important による恒常的な上書きで無効化する。
+       transform は単一プロパティのため、rotate も同時に固定される。 */
+    .ball {
+      transform: translateY(0) rotate(0deg) !important;
     }
 
     /* ===== コード表示エリア ===== */
@@ -59,9 +71,15 @@
     .code-section h2 {
       font-size: 1.4rem;
       color: #2c3e50;
-      margin-bottom: 16px;
+      margin-bottom: 8px;
       padding-left: 14px;
       border-left: 5px solid #4a90e2;
+    }
+
+    .code-section .note {
+      margin: 0 0 16px 19px;
+      font-size: 0.9rem;
+      color: #7f8c8d;
     }
 
     pre {
@@ -82,6 +100,7 @@
     .comment { color: #6a9955; }
     .key     { color: #9cdcfe; }
     .number  { color: #b5cea8; }
+    .contra  { background: rgba(231, 76, 60, 0.18); }
   </style>
 </head>
 <body>
@@ -93,7 +112,8 @@
 
   <!-- コード表示 -->
   <div class="code-section">
-    <h2>使用しているコード</h2>
+    <h2>使用しているコード(矛盾命令版)</h2>
+    <p class="note">45%のジャンプ命令は削除せず、別の宣言で恒常的に無効化しています。</p>
     <pre><code><span class="comment">&lt;!-- アニメーション部分 --&gt;</span>
 <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"animation-area"</span><span class="tag">&gt;</span>
   <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"ball"</span><span class="tag">&gt;&lt;/div&gt;</span>
@@ -113,9 +133,16 @@
   }
 
   <span class="key">@keyframes</span> fly {
-    <span class="number">0%</span>   { left: <span class="number">-70px</span>; transform: rotate(0deg); }
+    <span class="number">0%</span>   { left: <span class="number">-70px</span>; transform: translateY(0) rotate(0deg); }
+    <span class="number">45%</span>  { <span class="comment">/* ジャンプ命令(そのまま残置) */</span> transform: translateY(-55px) rotate(180deg); }
     <span class="number">100%</span> { left: <span class="number">100%</span>;  transform: translateY(0) rotate(360deg); }
   }
+
+  <span class="comment">/* ===== 矛盾命令(抑制) =====
+     上の45%が出す「ジャンプせよ」を削除せず、!important で恒常的に上書き・無効化する */</span>
+  <span class="key contra">.ball</span> <span class="contra">{</span>
+    <span class="key contra">transform</span><span class="contra">: translateY(0) rotate(0deg) !important;</span>
+  <span class="contra">}</span>
 <span class="tag">&lt;/style&gt;</span></code></pre>
   </div>
 
