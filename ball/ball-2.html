@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ボールが飛んでいく</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Hiragino Sans', sans-serif;
+      background: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* ===== アニメーションエリア ===== */
+    .animation-area {
+      height: 220px;
+      background: linear-gradient(to bottom, #87CEEB 0%, #e0f7fa 100%);
+      position: relative;
+      overflow: hidden;
+      border-bottom: 4px solid #4a90e2;
+    }
+
+    .ball {
+      width: 58px;
+      height: 58px;
+      background: radial-gradient(circle at 28% 28%, #ff7979, #c0392b);
+      border-radius: 50%;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+      position: absolute;
+      top: 80px;
+      left: -70px;
+      animation: fly 3.2s ease-in-out infinite;
+    }
+
+    @keyframes fly {
+      0% {
+        left: -70px;
+        transform: rotate(0deg);
+      }
+      100% {
+        left: 100%;
+        transform: translateY(0) rotate(360deg);
+      }
+    }
+
+    /* ===== コード表示エリア ===== */
+    .code-section {
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    .code-section h2 {
+      font-size: 1.4rem;
+      color: #2c3e50;
+      margin-bottom: 16px;
+      padding-left: 14px;
+      border-left: 5px solid #4a90e2;
+    }
+
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 24px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-size: 14px;
+      line-height: 1.55;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    /* 簡易シンタックスハイライト */
+    .tag     { color: #569cd6; }
+    .attr    { color: #9cdcfe; }
+    .value   { color: #ce9178; }
+    .comment { color: #6a9955; }
+    .key     { color: #9cdcfe; }
+    .number  { color: #b5cea8; }
+  </style>
+</head>
+<body>
+
+  <!-- アニメーション -->
+  <div class="animation-area">
+    <div class="ball"></div>
+  </div>
+
+  <!-- コード表示 -->
+  <div class="code-section">
+    <h2>使用しているコード</h2>
+    <pre><code><span class="comment">&lt;!-- アニメーション部分 --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"animation-area"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="value">"ball"</span><span class="tag">&gt;&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="comment">&lt;!-- スタイル --&gt;</span>
+<span class="tag">&lt;style&gt;</span>
+  <span class="key">.ball</span> {
+    <span class="key">width</span>: <span class="number">58px</span>;
+    <span class="key">height</span>: <span class="number">58px</span>;
+    <span class="key">background</span>: radial-gradient(circle at 28% 28%, #ff7979, #c0392b);
+    <span class="key">border-radius</span>: <span class="number">50%</span>;
+    <span class="key">position</span>: absolute;
+    <span class="key">top</span>: <span class="number">80px</span>;
+    <span class="key">left</span>: <span class="number">-70px</span>;
+    <span class="key">animation</span>: fly <span class="number">3.2s</span> ease-in-out infinite;
+  }
+
+  <span class="key">@keyframes</span> fly {
+    <span class="number">0%</span>   { left: <span class="number">-70px</span>; transform: rotate(0deg); }
+    <span class="number">100%</span> { left: <span class="number">100%</span>;  transform: translateY(0) rotate(360deg); }
+  }
+<span class="tag">&lt;/style&gt;</span></code></pre>
+  </div>
+
+</body>
+</html>
