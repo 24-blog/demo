@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ボールが飛んでいく</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #87CEEB; /* 背景 */
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .ball {
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at 30% 30%, #ff6b6b, #c0392b);
+      border-radius: 50%;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+      position: absolute;
+      left: -80px; /* 画面の外からスタート */
+      animation: fly 3s ease-in-out infinite;
+    }
+
+    @keyframes fly {
+      0% {
+        left: -80px;
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-40px) rotate(180deg); /* 少し跳ねる感じ */
+      }
+      100% {
+        left: 100%;
+        transform: translateY(0) rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ball"></div>
+</body>
+</html>
