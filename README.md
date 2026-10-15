@@ -5,7 +5,7 @@
 | No | 年月日 | File | 状態 |
 | :--- |:--- |:--- |:--- |
 | 5 | 26-09-27 | ball/type2 | [展開](https://24-blog.github.io/demo/ball/ball-2) |
-| 4 | 26-09-27 | ball/index | [展開](https://24-blog.github.io/demo/ball) |
+| 4 | 26-09-27 | ball | [展開](https://24-blog.github.io/demo/ball) |
 | 3 | 26-09-20 | test | [展開](https://24-blog.github.io/demo/test) |
 | 2 | 26-09-20 | index | [展開](https://24-blog.github.io/demo/) |
 | 1 | 26-09-15 | index | 削除 |
