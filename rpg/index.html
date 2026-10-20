@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CHARACTER PROFILE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=DM+Mono:wght@300;400;500&family=Cinzel:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+  /* ─── TOKENS ─────────────────────────────────────────────── */
+  :root {
+    --bg:        #0a0a0c;
+    --surface:   #111118;
+    --panel:     #16161f;
+    --border:    #2a2a3a;
+    --gold:      #c9a84c;
+    --gold-dim:  #7a6230;
+    --gold-glow: rgba(201,168,76,0.18);
+    --text:      #e8e0cc;
+    --text-dim:  #7a7060;
+    --text-muted:#4a4438;
+    --red:       #c94c4c;
+    --blue:      #4c7ac9;
+    --green:     #4cb87a;
+    --ff-serif:  'Noto Serif JP', serif;
+    --ff-mono:   'DM Mono', monospace;
+    --ff-title:  'Cinzel', serif;
+    --radius:    6px;
+  }
+
+  /* ─── RESET ──────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff-serif);
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+    background-image:
+      radial-gradient(ellipse 80% 40% at 50% -10%, rgba(201,168,76,0.06) 0%, transparent 70%),
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(201,168,76,0.025) 39px, rgba(201,168,76,0.025) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(201,168,76,0.025) 39px, rgba(201,168,76,0.025) 40px);
+  }
+
+  /* ─── LAYOUT ─────────────────────────────────────────────── */
+  .page-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .page-title {
+    font-family: var(--ff-title);
+    font-size: clamp(10px, 2vw, 13px);
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-align: center;
+    margin-bottom: 32px;
+    text-transform: uppercase;
+  }
+  .page-title span { color: var(--gold); }
+
+  /* Two-column master layout */
+  .master-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* Block A: top-left, full left column on desktop */
+  .block-a {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Block B: top-right, political map */
+  .block-b {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  /* ─── PANEL BASE ─────────────────────────────────────────── */
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .panel::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .panel-title {
+    font-family: var(--ff-title);
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+  }
+
+  /* ─── AVATAR PANEL ───────────────────────────────────────── */
+  .avatar-panel {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+  }
+  .avatar-frame {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    border: 2px solid var(--gold-dim);
+    border-radius: 4px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .avatar-placeholder {
+    font-size: 32px;
+    color: var(--gold-dim);
+    line-height: 1;
+  }
+  .avatar-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 3px;
+  }
+  .avatar-corner {
+    position: absolute;
+    width: 8px; height: 8px;
+    border-color: var(--gold);
+    border-style: solid;
+  }
+  .avatar-corner.tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+  .avatar-corner.tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; }
+  .avatar-corner.bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; }
+  .avatar-corner.br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+  .avatar-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .char-name {
+    font-family: var(--ff-title);
+    font-size: clamp(15px, 3vw, 20px);
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    margin-bottom: 3px;
+  }
+  .char-job {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .char-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .badge {
+    font-family: var(--ff-mono);
+    font-size: 9px;
+    padding: 2px 7px;
+    border: 1px solid var(--gold-dim);
+    border-radius: 2px;
+    color: var(--gold-dim);
+    letter-spacing: 0.05em;
+    background: rgba(201,168,76,0.05);
+  }
+
+  /* ─── DATA GRID (エリア1〜4) ─────────────────────────────── */
+  .area-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .area-block {}
+  .area-label {
+    font-family: var(--ff-title);
+    font-size: 8px;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 5px;
+  }
+  .data-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 8px;
+    margin-bottom: 5px;
+    align-items: baseline;
+  }
+  .data-key {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .data-val {
+    font-size: 12px;
+    color: var(--text);
+    word-break: break-all;
+  }
+  .data-val a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--gold-dim);
+  }
+  .data-val a:hover { color: #e8c87a; }
+  .data-val.mono {
+    font-family: var(--ff-mono);
+    color: var(--gold);
+    font-size: 12px;
+  }
+
+  /* ─── STAT BARS (エリア2) ────────────────────────────────── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: 4em 1fr 2.4em;
+    gap: 6px;
+    align-items: center;
+    margin-bottom: 7px;
+  }
+  .stat-name {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    white-space: nowrap;
+  }
+  .stat-bar-track {
+    height: 6px;
+    background: var(--surface);
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+  }
+  .stat-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    box-shadow: 0 0 6px var(--gold-glow);
+    transition: width 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+    width: 0;
+  }
+  .stat-bar-fill.animated { width: var(--pct); }
+  .stat-val {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    color: var(--gold);
+    text-align: right;
+  }
+
+  /* ─── POLITICAL MAP BLOCK ────────────────────────────────── */
+  .map-panel {
+    height: 100%;
+    min-height: 400px;
+  }
+  .map-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .score-legend {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .score-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 10px;
+    text-align: center;
+  }
+  .score-axis {
+    font-family: var(--ff-mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+  }
+  .score-num {
+    font-family: var(--ff-mono);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .score-num.x-axis { color: var(--red); }
+  .score-num.y-axis { color: var(--green); }
+  .score-num.z-axis { color: var(--blue); }
+  .score-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+
+  /* Canvas wrapper */
+  .canvas-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  #compassCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .canvas-hint {
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    font-family: var(--ff-mono);
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    pointer-events: none;
+  }
+
+  /* ─── AXIS LABELS ─────────────────────────────────────────── */
+  .axis-table {
+    font-size: 10px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .axis-table span { font-family: var(--ff-mono); }
+  .axis-x { color: var(--red); }
+  .axis-y { color: var(--green); }
+  .axis-z { color: var(--blue); }
+
+  /* ─── MOBILE ─────────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    body { padding: 16px 12px 40px; }
+    .master-grid {
+      grid-template-columns: 1fr;
+    }
+    .block-a { grid-column: 1; grid-row: 1; }
+    .block-b { grid-column: 1; grid-row: 2; }
+    .area-grid { grid-template-columns: 1fr; }
+    .score-legend { grid-template-columns: repeat(3, 1fr); }
+    .map-panel { min-height: auto; }
+  }
+
+  /* ─── ANIMATIONS ─────────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .block-a { animation: fadeUp 0.6s ease both; }
+  .block-b { animation: fadeUp 0.6s 0.15s ease both; }
+
+  /* Corner ornaments for panels */
+  .panel-corner {
+    position: absolute;
+    width: 10px; height: 10px;
+    border-color: var(--gold-dim);
+    border-style: solid;
+    opacity: 0.6;
+  }
+  .panel-corner.tl { top: 4px; left: 4px; border-width: 1px 0 0 1px; }
+  .panel-corner.tr { top: 4px; right: 4px; border-width: 1px 1px 0 0; }
+  .panel-corner.bl { bottom: 4px; left: 4px; border-width: 0 0 1px 1px; }
+  .panel-corner.br { bottom: 4px; right: 4px; border-width: 0 1px 1px 0; }
+</style>
+</head>
+<body>
+
+<div class="page-wrapper">
+  <div class="page-title">
+    ◆ <span>Character</span> Profile ◆
+  </div>
+
+  <div class="master-grid">
+
+    <!-- ═══════════════════════════════════════════════════════
+         BLOCK A  ─  Identity + Stats
+    ═══════════════════════════════════════════════════════ -->
+    <div class="block-a">
+
+      <!-- Avatar + 基本情報 -->
+      <div class="panel avatar-panel">
+        <div class="panel-corner tl"></div>
+        <div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div>
+        <div class="panel-corner br"></div>
+        <div class="avatar-frame">
+          <!-- 画像を使う場合: <img src="avatar.jpg" alt="avatar"> -->
+          <span class="avatar-placeholder">⚔</span>
+          <div class="avatar-corner tl"></div>
+          <div class="avatar-corner tr"></div>
+          <div class="avatar-corner bl"></div>
+          <div class="avatar-corner br"></div>
+        </div>
+        <div class="avatar-info">
+          <div class="char-name" id="charName">——</div>
+          <div class="char-job" id="charJob">——</div>
+          <div class="char-badges">
+            <span class="badge" id="charEdu">——</span>
+            <span class="badge" id="charRel">——</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- エリア1 + エリア2 -->
+      <div class="panel">
+        <div class="panel-corner tl"></div>
+        <div class="panel-corner br"></div>
+        <div class="area-grid">
+
+          <!-- エリア1 -->
+          <div class="area-block">
+            <div class="area-label">Area I — Identity</div>
+            <div class="data-row">
+              <span class="data-key">装備</span>
+              <span class="data-val"><a id="equipLink" href="#" target="_blank">——</a></span>
+            </div>
+            <div class="data-row">
+              <span class="data-key">資産</span>
+              <span class="data-val mono" id="charAsset">——</span>
+            </div>
+          </div>
+
+          <!-- エリア2：ステータスバー -->
+          <div class="area-block">
+            <div class="area-label">Area II — Status</div>
+            <div id="statsContainer"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- エリア3 + エリア4 -->
+      <div class="panel">
+        <div class="panel-corner tl"></div>
+        <div class="panel-corner br"></div>
+        <div class="area-grid">
+
+          <!-- エリア3 -->
+          <div class="area-block">
+            <div class="area-label">Area III — License</div>
+            <div id="licenseContainer"></div>
+          </div>
+
+          <!-- エリア4 -->
+          <div class="area-block">
+            <div class="area-label">Area IV — Skills</div>
+            <div id="skillContainer"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /block-a -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         BLOCK B  ─  Political Map (スマホでは下段)
+    ═══════════════════════════════════════════════════════ -->
+    <div class="block-b">
+      <div class="panel map-panel">
+        <div class="panel-corner tl"></div>
+        <div class="panel-corner tr"></div>
+        <div class="panel-corner bl"></div>
+        <div class="panel-corner br"></div>
+        <div class="panel-title">Political Map</div>
+        <div class="map-inner">
+
+          <!-- スコア表示 -->
+          <div class="score-legend">
+            <div class="score-item">
+              <div class="score-axis">X-AXIS</div>
+              <div class="score-num x-axis" id="scoreX">0</div>
+              <div class="score-label">共有 ← → 私有</div>
+            </div>
+            <div class="score-item">
+              <div class="score-axis">Y-AXIS</div>
+              <div class="score-num y-axis" id="scoreY">0</div>
+              <div class="score-label">共同体 ← → 世界</div>
+            </div>
+            <div class="score-item">
+              <div class="score-axis">Z-AXIS</div>
+              <div class="score-num z-axis" id="scoreZ">0</div>
+              <div class="score-label">経験 ← → 設計</div>
+            </div>
+          </div>
+
+          <!-- 3D Canvas -->
+          <div class="canvas-wrap">
+            <canvas id="compassCanvas"></canvas>
+            <div class="canvas-hint">drag to rotate</div>
+          </div>
+
+          <!-- 軸説明 -->
+          <div class="axis-table">
+            <div><span class="axis-x">X</span> 共有（左）⟷ 私有（右）</div>
+            <div><span class="axis-y">Y</span> 共同体（下）⟷ ワンワールド（上）</div>
+            <div><span class="axis-z">Z</span> 経験論（手前）⟷ 設計合理主義（奥）</div>
+          </div>
+
+        </div>
+      </div>
+    </div><!-- /block-b -->
+
+  </div><!-- /master-grid -->
+</div><!-- /page-wrapper -->
+
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   ▼▼  HERE: プロフィールデータを編集してください  ▼▼
+══════════════════════════════════════════════════════════════ */
+const PROFILE = {
+  // ── エリア1 ────────────────────────────────────────────────
+  name:      "235",
+  job:       "test",
+  education: "test",          // バッジ表示
+  religion:  "test",   // バッジ表示
+  equipText: "test",       // 装備リンクのテキスト
+  equipUrl:  "https://24-blog.github.io/pages/",
+  asset:     "¥—",            // 資産（文字列で自由に）
+
+  // ── エリア2：ステータス（/100 で正規化） ───────────────────
+  stats: [
+    { name: "test", value: 72 },
+    { name: "test", value: 88 },
+    { name: "test", value: 80 },
+    { name: "test", value: 65 },
+    { name: "test", value: 78 },
+    { name: "test", value: 70 },
+  ],
+
+  // ── エリア3：資格 ──────────────────────────────────────────
+  licenses: [
+    "test",
+    "test",
+  ],
+
+  // ── エリア4：技能 ──────────────────────────────────────────
+  skills: [
+    "test",
+    "test",
+    "test",
+    "test",
+  ],
+
+  // ── ポリティカルコンパス（-100 〜 +100） ───────────────────
+  // x: 共有(-) ⟷ 私有(+)
+  // y: 共同体(-) ⟷ ワンワールド(+)
+  // z: 経験論(-) ⟷ 設計合理主義(+)
+  compass: {
+    x: 60,   // ← ここを変更
+    y: -45,  // ← ここを変更
+    z: -55,  // ← ここを変更
+  },
+};
+/* ══════════════════════════════════════════════════════════════
+   ▲▲  編集終わり  ▲▲
+══════════════════════════════════════════════════════════════ */
+
+
+/* ─── Render エリア1〜4 ────────────────────────────────────── */
+document.getElementById('charName').textContent   = PROFILE.name;
+document.getElementById('charJob').textContent    = PROFILE.job;
+document.getElementById('charEdu').textContent    = PROFILE.education;
+document.getElementById('charRel').textContent    = PROFILE.religion;
+document.getElementById('charAsset').textContent  = PROFILE.asset;
+const eq = document.getElementById('equipLink');
+eq.textContent = PROFILE.equipText;
+eq.href        = PROFILE.equipUrl;
+
+// Stats
+const statsCont = document.getElementById('statsContainer');
+PROFILE.stats.forEach(s => {
+  const row = document.createElement('div');
+  row.className = 'stat-row';
+  row.innerHTML = `
+    <span class="stat-name">${s.name}</span>
+    <div class="stat-bar-track">
+      <div class="stat-bar-fill" style="--pct:${s.value}%"></div>
+    </div>
+    <span class="stat-val">${s.value}</span>`;
+  statsCont.appendChild(row);
+});
+
+// Licenses
+const licCont = document.getElementById('licenseContainer');
+PROFILE.licenses.forEach(l => {
+  const d = document.createElement('div');
+  d.className = 'data-row';
+  d.innerHTML = `<span class="data-key">▸</span><span class="data-val">${l}</span>`;
+  licCont.appendChild(d);
+});
+
+// Skills
+const skCont = document.getElementById('skillContainer');
+PROFILE.skills.forEach(s => {
+  const d = document.createElement('div');
+  d.className = 'data-row';
+  d.innerHTML = `<span class="data-key">▸</span><span class="data-val">${s}</span>`;
+  skCont.appendChild(d);
+});
+
+// Score display
+document.getElementById('scoreX').textContent = PROFILE.compass.x;
+document.getElementById('scoreY').textContent = PROFILE.compass.y;
+document.getElementById('scoreZ').textContent = PROFILE.compass.z;
+
+// Animate stat bars
+requestAnimationFrame(() => {
+  setTimeout(() => {
+    document.querySelectorAll('.stat-bar-fill').forEach(el => el.classList.add('animated'));
+  }, 300);
+});
+
+
+/* ─── 3D Political Compass ─────────────────────────────────── */
+(function() {
+  const canvas = document.getElementById('compassCanvas');
+  const ctx    = canvas.getContext('2d');
+
+  // Colors
+  const C = {
+    bg:     '#080b14',
+    grid:   'rgba(42,42,58,0.7)',
+    x:      '#c94c4c',
+    y:      '#4cb87a',
+    z:      '#4c7ac9',
+    point:  '#c9a84c',
+    pointG: 'rgba(201,168,76,0.3)',
+    text:   'rgba(120,115,100,0.9)',
+    white:  'rgba(232,224,204,0.9)',
+  };
+
+  let rotX = 0.4, rotY = -0.5;
+  let dragging = false, lastMX = 0, lastMY = 0;
+  let animId;
+
+  function resize() {
+    const w = canvas.offsetWidth;
+    canvas.width  = w * devicePixelRatio;
+    canvas.height = w * devicePixelRatio;
+    canvas.style.height = w + 'px';
+    draw();
+  }
+
+  // 3D → 2D projection (simple isometric with rotation)
+  function project(x, y, z) {
+    const cx = Math.cos(rotX), sx = Math.sin(rotX);
+    const cy = Math.cos(rotY), sy = Math.sin(rotY);
+    // Rotate around Y
+    const x1 = x * cy - z * sy;
+    const z1 = x * sy + z * cy;
+    // Rotate around X
+    const y2 = y * cx - z1 * sx;
+    const z2 = y * sx + z1 * cx;
+    const scale = canvas.width * 0.28;
+    const cx2 = canvas.width / 2;
+    const cy2 = canvas.height / 2;
+    return {
+      sx: cx2 + x1 * scale,
+      sy: cy2 - y2 * scale,
+      depth: z2,
+    };
+  }
+
+  function line(p1, p2, color, width = 1, dash = []) {
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = width * devicePixelRatio;
+    ctx.setLineDash(dash.map(d => d * devicePixelRatio));
+    ctx.beginPath();
+    ctx.moveTo(p1.sx, p1.sy);
+    ctx.lineTo(p2.sx, p2.sy);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function dot(p, r, color, glow) {
+    ctx.save();
+    if (glow) {
+      ctx.shadowBlur  = 18 * devicePixelRatio;
+      ctx.shadowColor = glow;
+    }
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.arc(p.sx, p.sy, r * devicePixelRatio, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function label(p, txt, color, offX=0, offY=0) {
+    ctx.save();
+    ctx.fillStyle  = color;
+    ctx.font       = `${10 * devicePixelRatio}px 'DM Mono', monospace`;
+    ctx.textAlign  = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(txt, p.sx + offX * devicePixelRatio, p.sy + offY * devicePixelRatio);
+    ctx.restore();
+  }
+
+  function draw() {
+    ctx.fillStyle = C.bg;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // ブルートーン・ラジアルグロー（Z軸=青に呼応）
+    const grad = ctx.createRadialGradient(
+      canvas.width / 2, canvas.height / 2, 0,
+      canvas.width / 2, canvas.height / 2, canvas.width * 0.7
+    );
+    grad.addColorStop(0,   'rgba(76,122,201,0.22)');
+    grad.addColorStop(0.5, 'rgba(76,122,201,0.10)');
+    grad.addColorStop(1,   'rgba(20,40,90,0.05)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const O  = project(0, 0, 0);
+    const L  = 1.0; // axis length
+
+    // ─ Grid planes (faint) ─
+    const steps = 4;
+    for (let i = -steps; i <= steps; i++) {
+      const t = i / steps;
+      // XY plane (z=0)
+      line(project(t, -1, 0), project(t, 1, 0), C.grid, 0.5, [3,5]);
+      line(project(-1, t, 0), project(1, t, 0), C.grid, 0.5, [3,5]);
+    }
+
+    // ─ Axes ─
+    const XP = project( L, 0, 0), XN = project(-L, 0, 0);
+    const YP = project(0,  L, 0), YN = project(0, -L, 0);
+    const ZP = project(0, 0,  L), ZN = project(0, 0, -L);
+
+    line(XN, XP, C.x,  1.5);
+    line(YN, YP, C.y,  1.5);
+    line(ZN, ZP, C.z,  1.5);
+
+    // Axis labels
+    label(XP, '私有',   C.x,  0, -14);
+    label(XN, '共有',   C.x,  0, -14);
+    label(YP, '世界',   C.y,  0, -14);
+    label(YN, '共同体', C.y,  0,  14);
+    label(ZP, '設計',   C.z,  0, -14);
+    label(ZN, '経験',   C.z,  0, -14);
+
+    // ─ Data point ─
+    const px = PROFILE.compass.x / 100;
+    const py = PROFILE.compass.y / 100;
+    const pz = PROFILE.compass.z / 100;
+    const PP = project(px, py, pz);
+
+    // Drop lines to axes
+    line(project(px, 0,  0),  project(px, py, 0), 'rgba(201,168,76,0.25)', 0.8, [2,4]);
+    line(project(px, py, 0),  PP,                  'rgba(201,168,76,0.25)', 0.8, [2,4]);
+    line(project(0,  py, 0),  project(px, py, 0),  'rgba(201,168,76,0.25)', 0.8, [2,4]);
+
+    // Origin dot
+    dot(O, 3, C.grid);
+
+    // Data point glow ring
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(PP.sx, PP.sy, 14 * devicePixelRatio, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(201,168,76,0.2)';
+    ctx.lineWidth   = 1 * devicePixelRatio;
+    ctx.stroke();
+    ctx.restore();
+
+    dot(PP, 6, C.point, C.pointG);
+    label(PP, `(${PROFILE.compass.x}, ${PROFILE.compass.y}, ${PROFILE.compass.z})`, C.white, 0, -18);
+  }
+
+  // ─ Drag rotation ─
+  function onDown(ex, ey) { dragging = true; lastMX = ex; lastMY = ey; }
+  function onMove(ex, ey) {
+    if (!dragging) return;
+    rotY += (ex - lastMX) * 0.008;
+    rotX -= (ey - lastMY) * 0.008;
+    lastMX = ex; lastMY = ey;
+    draw();
+  }
+  function onUp() { dragging = false; }
+
+  canvas.addEventListener('mousedown', e => onDown(e.clientX, e.clientY));
+  window.addEventListener('mousemove', e => onMove(e.clientX, e.clientY));
+  window.addEventListener('mouseup',   onUp);
+  canvas.addEventListener('touchstart', e => { onDown(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); }, { passive: false });
+  canvas.addEventListener('touchmove',  e => { onMove(e.touches[0].clientX, e.touches[0].clientY); e.preventDefault(); }, { passive: false });
+  canvas.addEventListener('touchend',   onUp);
+
+  // Auto-rotate when idle
+  let idleTimer;
+  let autoRot = false;
+  let lastTs  = null;
+  const ROT_SPEED = 14.4; // deg/sec (≈ 元の rotY+=0.004 rad/frame @ 60fps)
+
+  function startAuto() {
+    cancelAnimationFrame(animId); // 重複ループ防止
+    autoRot = true;
+    lastTs  = null;
+    animId  = requestAnimationFrame(autoFrame);
+  }
+  function stopAuto() {
+    autoRot = false;
+    lastTs  = null;
+    cancelAnimationFrame(animId);
+  }
+  function autoFrame(ts) {
+    if (!autoRot) return;
+    if (lastTs !== null) {
+      const dt = (ts - lastTs) / 1000; // 秒
+      rotY += ROT_SPEED * dt * (Math.PI / 180);
+    }
+    lastTs = ts;
+    draw();
+    animId = requestAnimationFrame(autoFrame);
+  }
+
+  canvas.addEventListener('mousedown',  () => { stopAuto(); clearTimeout(idleTimer); });
+  canvas.addEventListener('touchstart', () => { stopAuto(); clearTimeout(idleTimer); });
+  window.addEventListener('mouseup',    () => { clearTimeout(idleTimer); idleTimer = setTimeout(startAuto, 3000); });
+  window.addEventListener('touchend',   () => { clearTimeout(idleTimer); idleTimer = setTimeout(startAuto, 3000); });
+
+  // Init
+  window.addEventListener('resize', resize);
+  resize();
+  idleTimer = setTimeout(startAuto, 2000);
+})();
+</script>
+<iframe 
+  src="https://24-blog.github.io/feed/" 
+  width="100%" 
+  height="300px" 
+  style="border:none;"
+  loading="lazy">
+</iframe>
+</body>
+</html>
