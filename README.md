@@ -4,7 +4,6 @@
 ### Deploying HTML
 | No | 年月日 | File | 状態 |
 | :--- |:--- |:--- |:--- |
-| 7 | 26-10-25 | text | [展開](https://24-blog.github.io/demo/text/) |
 | 6 | 26-10-20 | rpg | [展開](https://24-blog.github.io/demo/rpg/) |
 | 5 | 26-09-27 | ball/type2 | [展開](https://24-blog.github.io/demo/ball/type2) |
 | 4 | 26-09-27 | ball | [展開](https://24-blog.github.io/demo/ball) |
