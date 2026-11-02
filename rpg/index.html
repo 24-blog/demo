@@ -406,6 +406,18 @@
   .panel-corner.tr { top: 4px; right: 4px; border-width: 1px 1px 0 0; }
   .panel-corner.bl { bottom: 4px; left: 4px; border-width: 0 0 1px 1px; }
   .panel-corner.br { bottom: 4px; right: 4px; border-width: 0 1px 1px 0; }
+
+  /* ─── FEED PANEL ─────────────────────────────────────────── */
+  .feed-wrap { margin-top: 20px; }
+  .feed-panel { padding: 18px 20px 14px; }
+  .feed-panel iframe {
+    display: block;      /* iframe下の隙間を消す */
+    width: 100%;
+    height: 360px;       /* 好みで調整。超えた分は枠の中でスクロール */
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+  }
 </style>
 </head>
 <body>
@@ -871,12 +883,17 @@ requestAnimationFrame(() => {
   idleTimer = setTimeout(startAuto, 2000);
 })();
 </script>
-<iframe 
-  src="https://24-blog.github.io/feed/" 
-  width="100%" 
-  height="300px" 
-  style="border:none;"
-  loading="lazy">
-</iframe>
-</body>
-</html>
+
+<div class="page-wrapper feed-wrap">
+  <section class="panel feed-panel">
+    <div class="panel-title">FEED</div>
+    <iframe
+      src="https://24-blog.github.io/feed/"
+      loading="lazy"
+      title="フィード"></iframe>
+    <span class="panel-corner tl"></span>
+    <span class="panel-corner tr"></span>
+    <span class="panel-corner bl"></span>
+    <span class="panel-corner br"></span>
+  </section>
+</div>
