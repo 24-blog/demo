@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 240" width="360" height="240" role="img" aria-labelledby="t" xmlns:c2pa="http://c2pa.org/manifest">
+  <title id="t">赤地に太陽</title>
+
+  <defs>
+    <clipPath id="flag"><rect width="360" height="240"/></clipPath>
+
+    <!-- 太陽本体 -->
+    <radialGradient id="body" cx="0.5" cy="0.5" r="0.5" fx="0.38" fy="0.38">
+      <stop offset="0"    stop-color="#FFFF44"/>
+      <stop offset="0.40" stop-color="#FFE000"/>
+      <stop offset="0.75" stop-color="#FFB800"/>
+      <stop offset="1"    stop-color="#FF9500"/>
+    </radialGradient>
+
+    <!-- 呼吸に合わせて中心が白熱する -->
+    <radialGradient id="heat" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0"   stop-color="#FFFFFF" stop-opacity="0.75"/>
+      <stop offset="0.6" stop-color="#FFFBC0" stop-opacity="0.25"/>
+      <stop offset="1"   stop-color="#FFE000" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="corona">
+      <stop offset="0"    stop-color="#FFE600" stop-opacity="0.55"/>
+      <stop offset="0.40" stop-color="#FFB400" stop-opacity="0.30"/>
+      <stop offset="0.70" stop-color="#FF7800" stop-opacity="0.10"/>
+      <stop offset="1"    stop-color="#FF7800" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="halo">
+      <stop offset="0"   stop-color="#FFC800" stop-opacity="0.22"/>
+      <stop offset="0.5" stop-color="#FF9600" stop-opacity="0.09"/>
+      <stop offset="1"   stop-color="#FF9600" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 赤地への照り返し(加算ブレンド) -->
+    <radialGradient id="reflect">
+      <stop offset="0"    stop-color="#FF8A00" stop-opacity="0.42"/>
+      <stop offset="0.55" stop-color="#FF5A00" stop-opacity="0.16"/>
+      <stop offset="1"    stop-color="#FF5A00" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 光線: 根元は明るく、先へ向かって消える -->
+    <radialGradient id="rayfade" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="215">
+      <stop offset="0.36" stop-color="#FFF2A0" stop-opacity="0.60"/>
+      <stop offset="0.70" stop-color="#FFC840" stop-opacity="0.18"/>
+      <stop offset="1"    stop-color="#FFB000" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="raysoft" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="0.7"/>
+    </filter>
+    <filter id="flaresoft" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.4"/>
+    </filter>
+
+    <!-- 太陽の縁をゆっくり歪ませる -->
+    <filter id="wobble" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018 0.022" numOctaves="2" seed="7" result="n">
+        <animate attributeName="baseFrequency" dur="17s" repeatCount="indefinite"
+                 values="0.018 0.022;0.024 0.017;0.018 0.022"
+                 calcMode="spline" keyTimes="0;0.5;1"
+                 keySplines="0.45 0 0.55 1;0.45 0 0.55 1"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <style>
+    /* すべての周期を互いに割り切れない値にして、繰り返しを体感させない */
+    .o  { transform-origin: 180px 120px; }
+    .breath   { animation: breath 11s ease-in-out infinite; }
+    .heat     { animation: heat 11s ease-in-out infinite; }
+    .reflect  { animation: reflect 11s ease-in-out -3s infinite; }
+    .corona   { animation: corona 4.7s ease-in-out -1.2s infinite; }
+    .halo     { animation: halo 7.3s ease-in-out -2.6s infinite; }
+    .shimmer  { animation: shimmer 5.3s ease-in-out -0.8s infinite; }
+    .spin-a   { animation: spin 140s linear infinite; }
+    .spin-b   { animation: spin 190s linear infinite reverse; }
+    .flare    { animation: spin 90s linear infinite, flick 3.1s ease-in-out -1s infinite; }
+
+    @keyframes spin    { to { transform: rotate(360deg); } }
+    @keyframes breath  { 0%,100% { transform: scale(1); }     50% { transform: scale(1.022); } }
+    @keyframes heat    { 0%,100% { opacity: 0; }              50% { opacity: 1; } }
+    @keyframes reflect { 0%,100% { opacity: 0.55; transform: scale(0.94); } 50% { opacity: 1; transform: scale(1.1); } }
+    @keyframes corona  { 0%,100% { opacity: 0.75; transform: scale(1); }    50% { opacity: 1; transform: scale(1.08); } }
+    @keyframes halo    { 0%,100% { opacity: 0.6;  transform: scale(1); }    50% { opacity: 1; transform: scale(1.12); } }
+    @keyframes shimmer { 0%,100% { opacity: 0.55; } 40% { opacity: 1; } 65% { opacity: 0.7; } }
+    @keyframes flick   { 0%,100% { opacity: 0.25; } 50% { opacity: 0.7; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .o { animation: none !important; }
+    }
+  </style>
+
+  <g clip-path="url(#flag)">
+    <!-- 赤地 -->
+    <rect width="360" height="240" fill="#CC0000"/>
+
+    <!-- 赤地への照り返し -->
+    <circle class="o reflect" cx="180" cy="120" r="170" fill="url(#reflect)" style="mix-blend-mode:screen"/>
+
+    <!-- 後光 / コロナ -->
+    <circle class="o halo"   cx="180" cy="120" r="135" fill="url(#halo)"/>
+    <circle class="o corona" cx="180" cy="120" r="105" fill="url(#corona)"/>
+
+    <!-- 光線(2層・逆回転) -->
+    <g class="o shimmer" filter="url(#raysoft)">
+      <g class="o spin-a">
+        <g transform="translate(180 120)" fill="url(#rayfade)">
+        <path transform="rotate(1.3)" d="M78 -1.28 L174.1 0 L78 1.28Z"/>
+        <path transform="rotate(17.0)" d="M78 -1.64 L179.3 0 L78 1.64Z"/>
+        <path transform="rotate(28.1)" d="M78 -2.27 L179.2 0 L78 2.27Z"/>
+        <path transform="rotate(48.0)" d="M78 -2.58 L152.4 0 L78 2.58Z"/>
+        <path transform="rotate(58.2)" d="M78 -2.34 L196.2 0 L78 2.34Z"/>
+        <path transform="rotate(76.0)" d="M78 -2.01 L185.0 0 L78 2.01Z"/>
+        <path transform="rotate(87.6)" d="M78 -1.75 L176.6 0 L78 1.75Z"/>
+        <path transform="rotate(106.5)" d="M78 -1.62 L164.4 0 L78 1.62Z"/>
+        <path transform="rotate(117.9)" d="M78 -1.67 L169.1 0 L78 1.67Z"/>
+        <path transform="rotate(136.2)" d="M78 -2.32 L209.0 0 L78 2.32Z"/>
+        <path transform="rotate(151.3)" d="M78 -1.22 L191.7 0 L78 1.22Z"/>
+        <path transform="rotate(166.6)" d="M78 -1.96 L167.1 0 L78 1.96Z"/>
+        <path transform="rotate(179.6)" d="M78 -1.79 L195.0 0 L78 1.79Z"/>
+        <path transform="rotate(197.2)" d="M78 -2.47 L191.1 0 L78 2.47Z"/>
+        <path transform="rotate(212.9)" d="M78 -1.73 L167.4 0 L78 1.73Z"/>
+        <path transform="rotate(222.7)" d="M78 -1.65 L199.4 0 L78 1.65Z"/>
+        <path transform="rotate(240.1)" d="M78 -1.76 L196.9 0 L78 1.76Z"/>
+        <path transform="rotate(257.7)" d="M78 -1.85 L151.3 0 L78 1.85Z"/>
+        <path transform="rotate(271.4)" d="M78 -2.30 L154.4 0 L78 2.30Z"/>
+        <path transform="rotate(284.7)" d="M78 -1.94 L204.9 0 L78 1.94Z"/>
+        <path transform="rotate(298.8)" d="M78 -1.50 L208.5 0 L78 1.50Z"/>
+        <path transform="rotate(317.7)" d="M78 -1.45 L179.0 0 L78 1.45Z"/>
+        <path transform="rotate(327.5)" d="M78 -2.35 L153.2 0 L78 2.35Z"/>
+        <path transform="rotate(346.6)" d="M78 -2.51 L153.4 0 L78 2.51Z"/>
+        </g>
+      </g>
+      <g class="o spin-b">
+        <g transform="translate(180 120)" fill="url(#rayfade)">
+        <path transform="rotate(8.5)" d="M78 -0.85 L133.4 0 L78 0.85Z"/>
+        <path transform="rotate(11.5)" d="M78 -0.95 L103.0 0 L78 0.95Z"/>
+        <path transform="rotate(22.0)" d="M78 -0.55 L147.6 0 L78 0.55Z"/>
+        <path transform="rotate(26.9)" d="M78 -0.57 L111.0 0 L78 0.57Z"/>
+        <path transform="rotate(37.6)" d="M78 -0.54 L130.2 0 L78 0.54Z"/>
+        <path transform="rotate(42.1)" d="M78 -0.75 L147.9 0 L78 0.75Z"/>
+        <path transform="rotate(53.7)" d="M78 -0.63 L142.2 0 L78 0.63Z"/>
+        <path transform="rotate(58.8)" d="M78 -0.73 L139.2 0 L78 0.73Z"/>
+        <path transform="rotate(66.9)" d="M78 -0.71 L138.9 0 L78 0.71Z"/>
+        <path transform="rotate(73.7)" d="M78 -0.92 L159.4 0 L78 0.92Z"/>
+        <path transform="rotate(81.2)" d="M78 -0.67 L150.0 0 L78 0.67Z"/>
+        <path transform="rotate(86.3)" d="M78 -0.58 L111.5 0 L78 0.58Z"/>
+        <path transform="rotate(98.0)" d="M78 -0.98 L107.9 0 L78 0.98Z"/>
+        <path transform="rotate(103.4)" d="M78 -0.94 L116.9 0 L78 0.94Z"/>
+        <path transform="rotate(113.5)" d="M78 -0.81 L113.9 0 L78 0.81Z"/>
+        <path transform="rotate(119.0)" d="M78 -0.65 L115.0 0 L78 0.65Z"/>
+        <path transform="rotate(128.6)" d="M78 -0.80 L144.9 0 L78 0.80Z"/>
+        <path transform="rotate(131.8)" d="M78 -0.62 L156.8 0 L78 0.62Z"/>
+        <path transform="rotate(143.2)" d="M78 -0.53 L116.2 0 L78 0.53Z"/>
+        <path transform="rotate(148.8)" d="M78 -0.99 L112.8 0 L78 0.99Z"/>
+        <path transform="rotate(156.3)" d="M78 -0.74 L133.8 0 L78 0.74Z"/>
+        <path transform="rotate(162.5)" d="M78 -0.88 L120.5 0 L78 0.88Z"/>
+        <path transform="rotate(171.5)" d="M78 -0.58 L141.4 0 L78 0.58Z"/>
+        <path transform="rotate(176.4)" d="M78 -0.59 L102.8 0 L78 0.59Z"/>
+        <path transform="rotate(187.4)" d="M78 -0.87 L149.0 0 L78 0.87Z"/>
+        <path transform="rotate(193.0)" d="M78 -0.62 L113.6 0 L78 0.62Z"/>
+        <path transform="rotate(203.9)" d="M78 -0.84 L118.4 0 L78 0.84Z"/>
+        <path transform="rotate(206.4)" d="M78 -0.62 L144.9 0 L78 0.62Z"/>
+        <path transform="rotate(217.5)" d="M78 -0.62 L119.7 0 L78 0.62Z"/>
+        <path transform="rotate(224.0)" d="M78 -0.78 L156.7 0 L78 0.78Z"/>
+        <path transform="rotate(233.3)" d="M78 -0.62 L156.4 0 L78 0.62Z"/>
+        <path transform="rotate(237.6)" d="M78 -0.78 L138.0 0 L78 0.78Z"/>
+        <path transform="rotate(246.7)" d="M78 -0.68 L155.9 0 L78 0.68Z"/>
+        <path transform="rotate(252.9)" d="M78 -0.91 L113.7 0 L78 0.91Z"/>
+        <path transform="rotate(261.8)" d="M78 -0.75 L157.2 0 L78 0.75Z"/>
+        <path transform="rotate(267.9)" d="M78 -0.54 L120.0 0 L78 0.54Z"/>
+        <path transform="rotate(277.9)" d="M78 -0.96 L126.7 0 L78 0.96Z"/>
+        <path transform="rotate(282.2)" d="M78 -0.72 L121.4 0 L78 0.72Z"/>
+        <path transform="rotate(293.4)" d="M78 -0.62 L133.9 0 L78 0.62Z"/>
+        <path transform="rotate(297.2)" d="M78 -0.76 L106.5 0 L78 0.76Z"/>
+        <path transform="rotate(307.4)" d="M78 -0.94 L158.0 0 L78 0.94Z"/>
+        <path transform="rotate(313.5)" d="M78 -0.89 L118.1 0 L78 0.89Z"/>
+        <path transform="rotate(321.8)" d="M78 -0.79 L149.9 0 L78 0.79Z"/>
+        <path transform="rotate(326.6)" d="M78 -0.60 L121.6 0 L78 0.60Z"/>
+        <path transform="rotate(337.7)" d="M78 -0.84 L142.2 0 L78 0.84Z"/>
+        <path transform="rotate(342.3)" d="M78 -0.57 L112.8 0 L78 0.57Z"/>
+        <path transform="rotate(353.6)" d="M78 -0.91 L106.8 0 L78 0.91Z"/>
+        <path transform="rotate(356.7)" d="M78 -0.76 L153.1 0 L78 0.76Z"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- 太陽本体 -->
+    <g class="o breath">
+      <circle cx="180" cy="120" r="75" fill="url(#body)" filter="url(#wobble)"/>
+      <circle class="o heat" cx="180" cy="120" r="75" fill="url(#heat)"/>
+      <!-- 縁の微細なフレア -->
+      <circle class="o flare" cx="180" cy="120" r="76" fill="none" stroke="#FFF6B0" stroke-width="2.4"
+              stroke-dasharray="14 40 6 22 3 61 18 30 5 47" filter="url(#flaresoft)"/>
+    </g>
+  </g>
+<metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYTo1YjEyMjQwOS0zYzcxLTQ4NzItYmUwMi1kMTc2MzYxZGRlYjQAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaDow0hsfLDfH3U11IAWp3+YAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDpkM2ZiMjVmZS1hNjBhLTQ4ZTQtODU0YS01OGE5NDhkYTJhMjJscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNopH9HOahhKJFW4VtFIDtSNwAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggZD37Pz7SdA5jJHj2+V9ZZL/xRDupihv18GGy2TvAgn6kZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaCVdZS2Su2Qst0EUITGimEMAAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRMAAAAAAAAAAAAAAAAZGhhc2hYIB7iDHNZZ3AYYnK+L/Za4y/vVEUCwE46fACw+iKPRy3RZG5hbWVuanVtYmYgbWFuaWZlc3RqZXhjbHVzaW9uc4GiZXN0YXJ0GSykZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjViMTIyNDA5LTNjNzEtNDg3Mi1iZTAyLWQxNzYzNjFkZGViNC9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjA3MDIyODY4LWFlZGEtNDNjNi1hMGVlLTg3MjAwMjdkYzQ5NnJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCBkPfs/PtJ0DmMkePb5X1lkv/FEO6mKG/XwYbLZO8CCfqJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggfWK8IyjtjYzQ/4uB09Q+ECJGB/U12eUIVuI04eiRLp+iY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggfgOgxxEvqCRGIlKh6G5978/Y36sU6HE5SMG9FrJMP1J0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQEPaIPEJGZUhEddPRGGV9NIdVcQ+urm7QuMY3QFUlGr+RCoGXw4bIwIiFQyIKYV7wuUuNWOSL5G9R46nrApdrLY=</c2pa:manifest></metadata></svg>
